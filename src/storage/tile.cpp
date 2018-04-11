@@ -110,7 +110,6 @@ void Tile::InsertTuple(const oid_t tuple_offset, Tuple *tuple) {
 /**
  * Returns value present at slot
  */
-// column id is a 0-based column number
 type::Value Tile::GetValue(const oid_t tuple_offset, const oid_t column_id) {
   PELOTON_ASSERT(tuple_offset < GetAllocatedTupleCount());
   PELOTON_ASSERT(column_id < schema.GetColumnCount());
@@ -129,14 +128,12 @@ type::Value Tile::GetValue(const oid_t tuple_offset, const oid_t column_id) {
 //	}
 
 	return type::Value::DeserializeFrom(field_location, column_type, is_inlined);
-
 }
 
 /*
  * Faster way to get value
  * By amortizing schema lookups
  */
-// column offset is the actual offset of the column within the tuple slot
 type::Value Tile::GetValueFast(const oid_t tuple_offset,
                                const size_t column_offset,
                                const type::TypeId column_type,
@@ -146,26 +143,6 @@ type::Value Tile::GetValueFast(const oid_t tuple_offset,
 
   const char *tuple_location = GetTupleLocation(tuple_offset);
   const char *field_location = tuple_location + column_offset;
-
-  // return type::Value::DeserializeFrom(field_location, column_type, is_inlined);
-//  if (is_dict_encoded) {
-//    int column_id = -1;
-//    for (oid_t i = 0; i < encoded_column_offsets.size(); i++) {
-//      if (schema.GetOffset(i) == column_offset) {
-//        column_id = i;
-//        break;
-//      } else if (schema.GetOffset(i) > column_offset) {
-//        break;
-//      }
-//    }
-//    if(column_id != -1) {
-//      field_location = tuple_location + encoded_column_offsets[column_id];
-//			auto idx_val = type::Value::DeserializeFrom(field_location, column_type, is_inlined);
-//			uint8_t idx = idx_val.GetAs<uint8_t>();
-//      return type::Value(element_array[idx]);
-//    }
-//
-//	}
 
 	return type::Value::DeserializeFrom(field_location, column_type, is_inlined);
 

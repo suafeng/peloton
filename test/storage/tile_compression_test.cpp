@@ -71,8 +71,7 @@ TEST_F(TileCompressionTests, BasicTest) {
   tuple1->SetValue(1, type::ValueFactory::GetVarcharValue("bohan"), pool);
   tuple1->SetValue(2, type::ValueFactory::GetIntegerValue(12), pool);
   tuple1->SetValue(3, type::ValueFactory::GetTinyIntValue(13), pool);
-  tuple1->SetValue(4, type::ValueFactory::GetVarcharValue("bohan"),
-                   pool);
+  tuple1->SetValue(4, type::ValueFactory::GetVarcharValue("bohan"), pool);
 
   tuple2->SetValue(0, type::ValueFactory::GetIntegerValue(21), pool);
   tuple2->SetValue(1, type::ValueFactory::GetVarcharValue("ssy"), pool);
